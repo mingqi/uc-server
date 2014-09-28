@@ -1,0 +1,15 @@
+{
+  "name": "uc-server",
+  "description": "uclogs server side",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x",
+    "logcola" : "*",
+    "raw-body" : "*",
+    "type-is" : "*",
+    "compression" : "*",
+    "log4js" : "*",
+    "underscore" : "*"
+  }
+}
