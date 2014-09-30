@@ -1,5 +1,6 @@
 moment = require 'moment'
 us = require 'underscore'
+assert = require 'assert'
 
 ###
   auto find timestamp from log line
@@ -216,6 +217,11 @@ correct = (event_timestamp, log_time) ->
     return moment.unix(event_epoch - diff)
 
 module.exports = (config) ->
+
+  parse_key = config.lookup_key
+  timestamp_key = config.timestamp_key
+  assert.ok(parse_key, 'option parse_key is required for log_timestamp plugin')
+  assert.ok(timestamp_key, 'option timestamp_key is required for log_timestamp plugin')
   
   return {
 
@@ -226,7 +232,7 @@ module.exports = (config) ->
       callback()
 
     write : ({tag, time, record}, next) ->
-      if not record.timestamp?
-        record.timestamp = correct(time, extract(record.message))
+      if not record[timestamp_key]?
+        record[timestamp_key] = correct(time, extract(record[parse_key]))
         next(record)
   }
