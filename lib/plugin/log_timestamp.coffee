@@ -216,6 +216,10 @@ correct = (event_timestamp, log_time) ->
   else
     return moment.unix(event_epoch - diff)
 
+###
+- lookup_key
+- timestamp_key
+###
 module.exports = (config) ->
 
   parse_key = config.lookup_key

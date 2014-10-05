@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "hoconfig-js": "*",
     "express": "4.x",
     "logcola" : "*",
     "raw-body" : "*",

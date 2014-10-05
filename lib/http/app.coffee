@@ -5,16 +5,6 @@ zlib = require 'zlib'
 compression = require 'compression'
 us = require 'underscore'
 
-log = require '../http/log'
-
-###
-  http input plugin. accept http request.
-
-- port
-- bind
-###
-
-
 body = () ->
   return (req, res, next) ->
     getBody(req, null, (err, result) ->
@@ -75,10 +65,7 @@ auth = () ->
         next()
     )
 
-module.exports = (config) ->
-  port = config.port
-  bind = config.bind
-
+start = (emit, callback) ->
   app = express()
   # app.use(auth())
   app.use(body())
@@ -86,18 +73,14 @@ module.exports = (config) ->
   app.use(json())
   app.use(compression({threshold: false}))
 
-  server = null
-    
-  return {
-    
-    start : (emit, callback) ->
-      app.post '*', (req, res) ->
-        log(emit, req, res)
+  app.post '*', (req, res) ->
+    try
+      data = if us.isArray(req.body) then req.body else [req.body]
+      for d in us.map(data, _receive)
+        emit(d)
 
-      server = app.listen port, bind, callback
+      res.status(200).send({message: 'success'})
+    catch e
+      return res.status(200).send({message: e.message}) 
 
-    shutdown : (callback) ->
-      server.close callback
-      
-  }
-
+  app.listen port, bind, callback
