@@ -14,13 +14,14 @@ write data to elastic search index
 es = (config) ->
   hosts = config.hosts
 
-  client = new elasticsearch.Client
-    host: hosts
-    log: 'warning'
+  _client = null
 
   return {
     
     start : (callback) ->
+      _client = new elasticsearch.Client
+        host: hosts
+        log: 'warning'
       callback()
 
     shutdown : (callback) ->
@@ -52,8 +53,9 @@ es = (config) ->
           message: record.message         
         }
 
-      console.log bulk_body
-      client.bulk {body: bulk_body}, callback
+      logger.debug "elasticsearch bulk:"
+      logger.debug bulk_body
+      _client.bulk {body: bulk_body}, callback
   }
 
 module.exports = (config) -> 

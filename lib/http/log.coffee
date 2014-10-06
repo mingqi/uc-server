@@ -1,7 +1,7 @@
 us = require 'underscore'
 moment = require 'moment'
 
-_receive = (data) ->
+_receive = (data, userId) ->
   for member in ['tag', 'record']
     if !data[member]?
       throw Error "illegal data, absense '#{member}', #{JSON.stringify(data)}"   
@@ -12,6 +12,7 @@ _receive = (data) ->
     if not time.isValid()
       throw Error "illegal timestamp format: #{data['time']}"
   
+  data.record.userId = userId
   result = 
     tag: data.tag
     record: data.record
@@ -21,7 +22,7 @@ _receive = (data) ->
 module.exports = handler = (emit, req, res) ->
     try
       data = if us.isArray(req.body) then req.body else [req.body]
-      for d in us.map(data, _receive)
+      for d in us.map(data, (d) -> _receive(d, req.userId))
         emit(d)
 
       res.status(200).send({message: 'success'})

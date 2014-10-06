@@ -5,7 +5,9 @@ zlib = require 'zlib'
 compression = require 'compression'
 us = require 'underscore'
 
-log = require '../http/log'
+logHandler = require '../http/log'
+configHandler = require '../http/config'
+mongo = require '../mongodb'
 
 ###
   http input plugin. accept http request.
@@ -54,6 +56,7 @@ auth = () ->
   return (req, res, next) ->
     identify  = (callback) ->
       licenseKey = req.get('licenseKey') 
+      logger.debug "licenseKey: #{licenseKey}"
       return callback() if not licenseKey
       users = mongo.db().collection('users')
       users.findOne({licenseKey: licenseKey}, {fields: {_id: 1}}, (err, result) ->
@@ -66,10 +69,10 @@ auth = () ->
     identify((err, result) ->
       if err 
         logger.info("failed to auth request, #{err.message}")
-        res.send(500, {message: err.message})
+        res.status(500).send({message: err.message})
       else if not result
         logger.info("failed to auth request, doesn't have user information")
-        res.send(401)
+        res.status(401).end()
       else
         req.userId = result 
         next()
@@ -80,7 +83,7 @@ module.exports = (config) ->
   bind = config.bind
 
   app = express()
-  # app.use(auth())
+  app.use(auth())
   app.use(body())
   app.use(gunzip())
   app.use(json())
@@ -91,8 +94,10 @@ module.exports = (config) ->
   return {
     
     start : (emit, callback) ->
-      app.post '*', (req, res) ->
-        log(emit, req, res)
+      app.post '/log', (req, res) ->
+        logHandler(emit, req, res)
+
+      app.get '/config/:agentId', configHandler
 
       server = app.listen port, bind, callback
 

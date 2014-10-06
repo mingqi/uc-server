@@ -1,0 +1,8 @@
+{
+	"tag" : "status",
+	"record" : {
+		"agentId" : "agent001",
+		"hostname" : "mmingqi-mac",
+		"version" : "1.0.0"
+	}
+}
