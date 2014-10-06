@@ -237,6 +237,6 @@ module.exports = (config) ->
 
     write : ({tag, time, record}, next) ->
       if not record[timestamp_key]?
-        record[timestamp_key] = correct(time, extract(record[parse_key]))
+        record[timestamp_key] = correct(moment(time), extract(record[parse_key])).toDate().getTime()
         next(record)
   }

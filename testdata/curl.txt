@@ -1,8 +1,8 @@
 curl -X POST --header "Content-Type:application/json" --header "Content-Encoding:gzip"  http://localhost:9090/tsd --data-binary @./tsd.json.gz -v
 
-curl -X POST --header "Content-Type:application/json"  http://localhost:8010/log --data @./log.json -v
+curl -X POST --header "Content-Type:application/json" --header "licenseKey:lzyJanDTLW4yQ4nNKd3t"  http://localhost:8010/log --data @./log.json -v
 
-curl --head "licenseKey:lzyJanDTLW4yQ4nNKd3t" http://localhost:8010/config/agent001
+curl --header "licenseKey:lzyJanDTLW4yQ4nNKd3t" http://localhost:8010/config/agent001
 
 curl -X POST --header "Content-Type:application/json" --header "licenseKey:lzyJanDTLW4yQ4nNKd3t"  http://localhost:8010/log --data @./status.json -v
 

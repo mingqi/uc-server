@@ -6,17 +6,21 @@ _receive = (data, userId) ->
     if !data[member]?
       throw Error "illegal data, absense '#{member}', #{JSON.stringify(data)}"   
 
+  ## convert the time to moment object to verify format
   time = null
   if data['time']?
     time = moment(data['time']) 
     if not time.isValid()
       throw Error "illegal timestamp format: #{data['time']}"
+  else
+    time = moment()
   
   data.record.userId = userId
   result = 
     tag: data.tag
+    time: time.toDate().getTime()
     record: data.record
-  result.time = time or moment()
+
   return result 
 
 module.exports = handler = (emit, req, res) ->

@@ -9,7 +9,7 @@ log4js = require 'log4js'
 mongo = require './lib/mongodb'
 
 plugin = logcola.plugin
-Engine = logcola.engine
+Engine = logcola.Engine
 
 program
   .option('-c, --config [path]', 'config file')

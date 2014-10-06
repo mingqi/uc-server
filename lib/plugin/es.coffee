@@ -27,26 +27,18 @@ es = (config) ->
     shutdown : (callback) ->
       callback()
 
-    serialize : (data) ->
-      data.record.timestamp = data.record.timestamp.format()
-      return new Buffer(JSON.stringify(data), 'utf-8')
-    
-    unserialize : (buff) ->
-      r = JSON.parse(buff.toString('utf-8'))
-      r.record.timestamp = moment(r.record.timestamp)
-      return r
-
     writeChunk : (chunk, callback) ->
       bulk_body = []
       for {tag, time, record} in chunk
-        index_suffix = record.timestamp.format('YYYYMMDD') 
+        timestamp = moment(record.timestamp)
+        index_suffix = timestamp.format('YYYYMMDD') 
         bulk_body.push
           index: 
             _index: "uclogs-"+index_suffix, 
             _type: 'event'
 
         bulk_body.push {
-          timestamp : record.timestamp.format()
+          timestamp : timestamp.format()
           userId : record.userId
           host: record.host
           path: record.path
@@ -59,4 +51,4 @@ es = (config) ->
   }
 
 module.exports = (config) -> 
-  logcola.buffer(config, es(config))
+  logcola.Buffer(config, es(config))
