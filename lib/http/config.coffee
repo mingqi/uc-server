@@ -7,6 +7,9 @@ handler = (req, res) ->
   agentId = req.params.agentId
   hostColl = mongo.db().collection('hosts')
   hostColl.findOne {userId: userId, agentId: agentId}, {fields: {files: 1}}, (err, result) ->
-    res.send(result.files)
+    if not result or not result.files?
+      res.send([])
+    else
+      res.send(result.files)
 
 module.exports = handler

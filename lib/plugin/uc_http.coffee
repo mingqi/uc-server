@@ -5,7 +5,7 @@ zlib = require 'zlib'
 compression = require 'compression'
 us = require 'underscore'
 
-logHandler = require '../http/log'
+uploadHandler = require '../http/upload'
 configHandler = require '../http/config'
 mongo = require '../mongodb'
 
@@ -53,19 +53,25 @@ json = () ->
     next()
 
 auth = () ->
+  _cache = {}
   return (req, res, next) ->
     identify  = (callback) ->
       licenseKey = req.get('licenseKey') 
-      logger.debug "licenseKey: #{licenseKey}"
+      if _cache[licenseKey]
+        return callback(null, _cache[licenseKey])
+
       return callback() if not licenseKey
       users = mongo.db().collection('users')
       users.findOne({licenseKey: licenseKey}, {fields: {_id: 1}}, (err, result) ->
         return callback(err) if err
         return callback(null, null) if not result
-        return callback(null, result._id.toString())
+
+        _cache[licenseKey] = result._id.toString()
+        return callback(null, _cache[licenseKey])
       )
 
     logger.debug "recieve http hit"
+
     identify((err, result) ->
       if err 
         logger.info("failed to auth request, #{err.message}")
@@ -94,8 +100,8 @@ module.exports = (config) ->
   return {
     
     start : (emit, callback) ->
-      app.post '/log', (req, res) ->
-        logHandler(emit, req, res)
+      app.post '*', (req, res) ->
+        uploadHandler(emit, req, res)
 
       app.get '/config/:agentId', configHandler
 
