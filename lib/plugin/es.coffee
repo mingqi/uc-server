@@ -45,8 +45,7 @@ es = (config) ->
           message: record.message         
         }
 
-      logger.debug "elasticsearch bulk:"
-      logger.debug bulk_body
+      logger.debug "elasticsearch bulk index #{chunk.length} log events"
       _client.bulk {body: bulk_body}, callback
   }
 
