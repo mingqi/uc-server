@@ -184,7 +184,7 @@ toSameZone = (event_epoch, log_epoch) ->
 
   step = if diff > 0 then -1800 else 1800
   result = log_epoch
-  while not (result < event_epoch and event_epoch - result < 1800)
+  while not (event_epoch >= result and event_epoch - result < 1800)
     result += step
 
   return result
@@ -207,11 +207,13 @@ correct = (event_timestamp, log_time) ->
   log_time.month = log_time.month - 1
   log_epoch = moment(log_time).unix()
   event_epoch = event_timestamp.unix()
+
   log_epoch = toSameZone(event_epoch, log_epoch)
+
 
   # the event_epoch must be greater than log_epoch, toSameZone will guarantee that
   diff = event_epoch - log_epoch
-  if diff > 60 * 2
+  if diff > 60 * 10
     return event_timestamp
   else
     return moment.unix(event_epoch - diff)
@@ -240,3 +242,6 @@ module.exports = (config) ->
         record[timestamp_key] = correct(moment(record.event_timestamp), extract(record[parse_key])).toDate().getTime()
         next(record)
   }
+
+module.exports.extract = extract
+module.exports.correct = correct
