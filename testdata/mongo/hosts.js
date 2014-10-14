@@ -1,7 +1,7 @@
 db = db.getSiblingDB('uclogs')
 db.hosts.drop()
 db.hosts.insert({
-  agentId : "476b1ffa-441f-4a17-a126-5c372c74f1c4",
+  agentId : "c6f07d4b-ac8e-41e7-bf1f-9e47dee8da33",
   userId: '542b86ced486e035d39a7a7e', 
   hostname: "mingqi-mac",
   files: [ "/var/tmp/1.log",  "/var/tmp/4.log"],

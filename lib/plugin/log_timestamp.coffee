@@ -218,6 +218,25 @@ correct = (event_timestamp, log_time) ->
   else
     return moment.unix(event_epoch - diff)
 
+correct_by_zone = (event_timestamp, log_time, zone_offset) ->
+  # logger.debug event_timestamp.unix(), log_time, zone_offset
+  return event_timestamp  if not log_time 
+  log_time = us.clone(log_time)
+
+  # fill in missed year, month or day
+  if not log_time.year?
+    log_time.year = event_timestamp.year()
+  if not log_time.month?
+    log_time.month = event_timestamp.month() + 1
+  if not log_time.day?
+    log_time.day = event_timestamp.date()
+
+  # fix month 0-11 to adopt moment 
+  log_time.month = log_time.month - 1
+  log_epoch = moment.utc(log_time).unix()
+  return moment.unix(log_epoch + (zone_offset * 60))
+
+
 ###
 - lookup_key
 - timestamp_key
@@ -239,7 +258,11 @@ module.exports = (config) ->
 
     write : ({tag, time, record}, next) ->
       if not record[timestamp_key]?
-        record[timestamp_key] = correct(moment(record.event_timestamp), extract(record[parse_key])).toDate().getTime()
+        record[timestamp_key] = correct_by_zone(
+          moment(record.event_timestamp), 
+          extract(record[parse_key]),
+          record.tz_offset 
+        ).toDate().getTime()
         next(record)
   }
 

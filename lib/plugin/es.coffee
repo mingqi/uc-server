@@ -28,6 +28,7 @@ module.exports = (config) ->
         index: 
           _index: "uclogs-"+index_suffix, 
           _type: 'event'
+          _id: record.uuid
 
       bulk_body.push {
         timestamp : timestamp.format()
@@ -37,8 +38,11 @@ module.exports = (config) ->
         message: record.message         
       }
 
-    logger.debug "elasticsearch bulk index #{chunk.length} log events"
-    _client.bulk {body: bulk_body}, callback 
+    logger.info "#{chunk.length} log events is indexing to ES... "
+    _client.bulk {body: bulk_body}, (err) ->
+      logger.info "#{chunk.length} was indexed by ES"
+      callback()
+    
 
   return {
 

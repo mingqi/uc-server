@@ -1,7 +1,5 @@
 {
-    "tag" : "log",
-    "record": {
-    	"message":"lineeeee",
-    	"event_timestamp" : 1413177397603
-    }
+	"message":"this is to test zone offset",
+	"event_timestamp" : 1413177397603,
+	"tz_offset" : 480
 }

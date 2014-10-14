@@ -14,8 +14,10 @@
     "underscore" : "*",
     "elasticsearch" : "*",
     "moment" : "*",
+    "moment-timezone" : "*",
     "mongodb" : "*",
     "commander" : "*",
-    "log4js" : "*"
+    "log4js" : "*",
+    "uuid" : "*"
   }
 }
