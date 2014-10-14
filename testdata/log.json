@@ -1,6 +1,7 @@
 {
-    "time" : "2012-01-19T19:05:01-05:00",
     "tag" : "log",
-    "record": {"message":"lineeeee"}
+    "record": {
+    	"message":"lineeeee",
+    	"event_timestamp" : 1413177397603
+    }
 }
-

@@ -224,8 +224,8 @@ correct = (event_timestamp, log_time) ->
 ###
 module.exports = (config) ->
 
-  parse_key = config.lookup_key
-  timestamp_key = config.timestamp_key
+  parse_key = "message"
+  timestamp_key = "timestamp"
   assert.ok(parse_key, 'option parse_key is required for log_timestamp plugin')
   assert.ok(timestamp_key, 'option timestamp_key is required for log_timestamp plugin')
   
