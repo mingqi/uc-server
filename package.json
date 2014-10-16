@@ -18,6 +18,7 @@
     "mongodb" : "*",
     "commander" : "*",
     "log4js" : "*",
-    "uuid" : "*"
+    "uuid" : "*",
+    "findtime" : "*"
   }
 }
