@@ -22,10 +22,13 @@ settings = hoconfig(program.config)
 log4js.configure(settings.log4js)
 global.logger = log4js.getLogger('uc-server')
 
+logger.info "setting is #{JSON.stringify settings, null, 4}"
 logcola_path = path.join(path.dirname(program.config),settings.logcola.conf)
+
 plugin_path = path.resolve(path.join(path.dirname(program.config),settings.logcola.plugin))
 
 conf = hoconfig(logcola_path)
+logger.info "logcola configuration is #{JSON.stringify conf, null, 4}"
 plugin.setPluginPath(plugin_path)
 
 engine = Engine()
