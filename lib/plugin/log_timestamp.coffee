@@ -64,6 +64,10 @@ correct_by_zone = (event_timestamp, log_time, zone_offset) ->
   log_epoch = moment.utc(log_time).unix()
   return moment.unix(log_epoch + (zone_offset * 60))
 
+parse_time = (message) ->
+  all_parse = findtime(message)
+  return null if not all_parse or all_parse.length == 0
+  return all_parse[0].parsed_value
 
 ###
 - lookup_key
@@ -88,7 +92,7 @@ module.exports = (config) ->
       if not record[timestamp_key]?
         record[timestamp_key] = correct_by_zone(
           moment(record.event_timestamp), 
-          findtime(record[parse_key]),
+          parse_time(record[parse_key]),
           record.tz_offset 
         ).toDate().getTime()
         next(record)
