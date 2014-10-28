@@ -19,6 +19,7 @@
     "commander" : "*",
     "log4js" : "*",
     "uuid" : "*",
-    "findtime" : "*"
+    "findtime" : "*",
+    "collections" : "*"
   }
 }
