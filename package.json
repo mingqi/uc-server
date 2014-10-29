@@ -20,6 +20,7 @@
     "log4js" : "*",
     "uuid" : "*",
     "findtime" : "*",
-    "collections" : "*"
+    "collections" : "*",
+    "decodeurl" : "*"
   }
 }

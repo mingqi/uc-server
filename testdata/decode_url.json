@@ -1,0 +1,15 @@
+[
+{
+	"message":"61.135.189.167 - - [27/Oct/2014:21:11:34 +0800] \"GET /book/4996892.html?ttcampaign=Head HTTP/1.1\" 200 10715 \"-\" \"Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)\"",
+	"event_timestamp" : 1413959983466,
+	"host": "web01",
+	"path" : "/var/log/web.log",
+	"tz_offset" : -480
+},
+{
+	"message":"61.135.189.167 - - [27/Oct/2014:21:11:34 +0800] \"GET /book/4996892.html?ttcampaign=Head HTTP/1.1\" 200 10715 \"http://www.baidu.com/s?wd=%E5%B8%B8%E8%8C%82%E5%BE%95&pn=260&oq=%E5%B8%B8%E8%8C%82%E5%BE%95&ie=utf-8&rsv_idx=1&f=8&rsv_bp=1&tn=baidu\" \"Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)\"",
+	"event_timestamp" : 1413959983466,
+	"host": "web01",
+	"path" : "/var/log/web.log",
+	"tz_offset" : -480
+}]
