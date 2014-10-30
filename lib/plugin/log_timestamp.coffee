@@ -48,6 +48,8 @@ correct = (event_timestamp, log_time) ->
 
 correct_by_zone = (event_timestamp, log_time, zone_offset) ->
   # logger.debug event_timestamp.unix(), log_time, zone_offset
+
+  ## default use the event timestamp then tail listened new log line 
   return event_timestamp  if not log_time 
   log_time = us.clone(log_time)
 
@@ -67,7 +69,13 @@ correct_by_zone = (event_timestamp, log_time, zone_offset) ->
   log_epoch = moment.utc(log_time).unix()
 
   offset ?= zone_offset
-  return moment.unix(log_epoch + (offset * 60))
+  corrected_time = moment.unix(log_epoch + (offset * 60))
+  if corrected_time.isAfter(event_timestamp)
+    ## log's timestamp is no possible after the log line was written
+    return event_timestamp
+
+  return corrected_time
+
 
 parse_time = (message) ->
   all_parse = findtime(message)
