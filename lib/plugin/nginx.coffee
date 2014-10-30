@@ -15,7 +15,7 @@ nginx_default = (str) ->
     \[([^\[\]]+)\]\s+   # time_local
     "([^"]+)"\s+        # request
     (\d+)\s+            # status
-    (\d+)\s+            # body_bytes_sent
+    (\-|\d+)\s+            # body_bytes_sent
     "([^"]+)"\s+        # http_referer”
     "([^"]+)"           # user_agent
   ///
@@ -33,7 +33,7 @@ nginx_default = (str) ->
     http_method: sp[0]
     request_uri: sp[1]
     response_status: parseInt(m[6])
-    response_size: parseInt(m[7])
+    response_size: if m[7] == '-' then 0 else parseInt(m[7])
     referer: m[8]
     user_agent: m[9]
   }
