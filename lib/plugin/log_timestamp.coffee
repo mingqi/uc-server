@@ -51,6 +51,9 @@ correct_by_zone = (event_timestamp, log_time, zone_offset) ->
   return event_timestamp  if not log_time 
   log_time = us.clone(log_time)
 
+  offset = log_time.offset
+  delete log_time.offset  
+
   # fill in missed year, month or day
   if not log_time.year?
     log_time.year = event_timestamp.year()
@@ -62,7 +65,9 @@ correct_by_zone = (event_timestamp, log_time, zone_offset) ->
   # fix month 0-11 to adopt moment 
   log_time.month = log_time.month - 1
   log_epoch = moment.utc(log_time).unix()
-  return moment.unix(log_epoch + (zone_offset * 60))
+
+  offset ?= zone_offset
+  return moment.unix(log_epoch + (offset * 60))
 
 parse_time = (message) ->
   all_parse = findtime(message)

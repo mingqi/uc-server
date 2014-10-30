@@ -1,0 +1,8 @@
+[
+{
+	"message":"10.10.251.214 - - [Thu, 30 Oct 2014 09:07:25 GMT] \"GET / HTTP/1.1\" 200 - \"http://www.egouz.com/china/index.html\" \"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36\"",
+	"event_timestamp" : 1413959983466,
+	"host": "web01",
+	"path" : "/var/log/web.log",
+	"tz_offset" : -480
+}]
