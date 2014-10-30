@@ -12,7 +12,7 @@ module.exports = (config) ->
    
     write : ({tag, record}, next) ->
       if record.message?
-        record.message = decodeurl(record.message)
+        record.message = decodeurl(decodeurl(record.message))
       next(record) 
 
   return _this
