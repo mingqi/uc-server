@@ -21,6 +21,7 @@
     "uuid" : "*",
     "findtime" : "*",
     "collections" : "*",
-    "decodeurl" : "*"
+    "decodeurl" : "*",
+    "validator" : "*"
   }
 }
