@@ -7,7 +7,7 @@ $remote_addr - $remote_user [$time_local]
 nginx_default = (str) ->
 
   r = ///^
-    ([^\s]+)\s+         # remote_addrss
+    ([^\s]+)\s+         # remote_address
     ([^\s]+)\s+         #  -
     ([^\s]+)\s+         # remote_user
     \[([^\[\]]+)\]\s+   # time_local
@@ -21,7 +21,7 @@ nginx_default = (str) ->
   m = r.exec(str) 
   return null if not m
   return {
-    remote_addrss: m[1]
+    remote_address: m[1]
     request_uri: m[5]
     response_status: parseInt(m[6])
     response_size: parseInt(m[7])

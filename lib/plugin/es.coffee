@@ -13,7 +13,7 @@ write data to elastic search index
 ###
 
 OPTIONS_ES_FIELDS = [
-  "nginx.remote_addrss", "nginx.request_uri", "_nginx.request_uri"
+  "nginx.remote_address", "nginx.request_uri", "_nginx.request_uri"
   "nginx.response_status", "nginx.response_size", "nginx.referer"
   "_nginx.referer", "nginx.user_agent"
 ]
