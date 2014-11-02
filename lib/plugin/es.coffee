@@ -94,6 +94,9 @@ module.exports = (config) ->
 
     logger.info "#{chunk.length} log events is indexing to ES... "
     _client.bulk {body: bulk_body}, (err) ->
+      if err
+        logger.error err
+        return callback(err)
       logger.info "#{chunk.length} was indexed by ES"
       callback()
     

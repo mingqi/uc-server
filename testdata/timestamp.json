@@ -1,0 +1,8 @@
+{
+	"message":"Nov  1 01:41:30 s84 systemd-logind: Removed session",
+	"event_timestamp" : 1414777290796,
+	"tz_offset" : -480,
+	"path" : "/var/log/messages",
+	"host" : "s84",
+	"userId":"54508828a44ff66a76000001"
+}
