@@ -38,6 +38,35 @@ nginx_default = (str) ->
     user_agent: m[9]
   }
 
+apache_common = (str) ->
+  r = ///^
+    ([^\s]+)\s+         # remote_address
+    ([^\s]+)\s+         #  -
+    ([^\s]+)\s+         # remote_user
+    \[([^\[\]]+)\]\s+   # time_local
+    "([^"]+)"\s+        # request
+    (\d+)\s+            # status
+    (\-|\d+)         # body_bytes_sent
+  ///
+  
+  m = r.exec(str) 
+  return null if not m
+
+  console.log m
+  request_uri = m[5]
+  sp = request_uri.split(/\s+/)
+  return null if sp.length != 3
+  return null if sp[0] not in ['GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
+
+  return {
+    remote_address: m[1]
+    http_method: sp[0]
+    request_uri: sp[1]
+    response_status: parseInt(m[6])
+    response_size: if m[7] == '-' then 0 else parseInt(m[7])
+  }
+
+
 validate_nginx = (nginx) ->
   if nginx.response_status?
     return false if nginx.response_status < 100 or nginx.response_status >=600
@@ -48,7 +77,7 @@ validate_nginx = (nginx) ->
   return true
 
  
-patterns = [ nginx_default ]
+patterns = [ nginx_default, apache_common ]
 
 module.exports = (config) ->
   
